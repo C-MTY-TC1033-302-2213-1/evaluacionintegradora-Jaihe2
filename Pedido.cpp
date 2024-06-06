@@ -43,6 +43,9 @@ void Pedido::leerArchivo(const std::string& nombre) {
         } else if (row[0] == "C" && iR == 5) {
             arrPtrProductos[cantidad] = new Combo(row[1], stoi(row[2]), stoi(row[3]), stoi(row[4]));
             cantidad++;
+        } else if (row[0] == "P" && iR == 3) { // Handle incomplete P product
+            arrPtrProductos[cantidad] = new Producto(row[1], stoi(row[2]), 0); // Default peso to 0
+            cantidad++;
         }
     }
     archivo.close();
