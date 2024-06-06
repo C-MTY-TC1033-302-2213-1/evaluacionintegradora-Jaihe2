@@ -29,21 +29,21 @@ void Pedido::leerArchivo(const std::string& nombre) {
         while (getline(s, word, ',')) {
             row[iR++] = word;
         }
-        if (iR < 4 || (row[0] == "C" && iR < 5)) {
-            // Skip if the row does not have the correct number of columns
-            continue;
-        }
-        if (row[0] == "V") {
+
+        // Check if the row has the correct number of columns for "P"
+        if (row[0] == "P" && iR == 4) {
+            arrPtrProductos[cantidad] = new Producto(row[1], stoi(row[2]), stoi(row[3]));
+            cantidad++;
+        } else if (row[0] == "V" && iR == 5) {
             arrPtrProductos[cantidad] = new Verdura("", 0, 0, row[1]);
             arrPtrProductos[cantidad]->setNombre(row[2]);
             arrPtrProductos[cantidad]->setPrecio(stoi(row[3]));
             arrPtrProductos[cantidad]->setPeso(stoi(row[4]));
-        } else if (row[0] == "C") {
+            cantidad++;
+        } else if (row[0] == "C" && iR == 5) {
             arrPtrProductos[cantidad] = new Combo(row[1], stoi(row[2]), stoi(row[3]), stoi(row[4]));
-        } else if (row[0] == "P") {
-            arrPtrProductos[cantidad] = new Producto(row[1], stoi(row[2]), stoi(row[3]));
+            cantidad++;
         }
-        cantidad++;
     }
     archivo.close();
 }
